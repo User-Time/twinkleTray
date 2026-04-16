@@ -4,11 +4,11 @@
   "description": "Manage the brightness of monitors from your system tray",
   "main": "src/electron.js",
   "scripts": {
-    "start": "electron . --dev",
+    "start": "node src/scripts/start-electron.js --dev",
     "parcel": "node src/parcel.js --mode dev",
     "parcel-build": "node src/parcel.js --mode build",
     "clean": "npm ci",
-    "dev": "electron . --dev",
+    "dev": "node src/scripts/start-electron.js --dev",
     "electron-build": "electron-builder --x64",
     "electron-build-linux": "electron-builder --x64 -l AppImage deb",
     "postinstall": "node src/scripts/postinstall.js",

@@ -150,6 +150,8 @@ npm install
 npm start
 ```
 
+`npm start` now launches Electron with `--no-sandbox` on Linux to avoid common `chrome-sandbox` permission failures on Ubuntu development setups.
+
 ### Linux package build
 
 ```bash
