@@ -150,6 +150,16 @@ npm install
 npm start
 ```
 
+### Linux package build
+
+```bash
+npm install
+npm run parcel-build
+npm run electron-build-linux
+```
+
+This produces Linux artifacts (`AppImage` and `deb`) via Electron Builder.
+
 ### CLI helper examples
 
 ```bash
