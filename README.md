@@ -129,25 +129,41 @@ If you wish to run a development build of Twinkly Tray:
 *Note: Twinkle Tray must be built on Windows.*
 
 
-## Ubuntu 24.04 / Linux Notes (Community Helper)
+## Ubuntu 24.04 / Linux Notes (Tray Prototype)
 
-Twinkle Tray itself is still a Windows-focused app. This repository now includes a small Linux helper script for external monitor brightness via `ddcutil`:
+Twinkle Tray's original codebase is Windows-first, but this repo now includes a Linux tray prototype that runs on Ubuntu 24.04 with `ddcutil`.
+
+### What works on Linux now
+
+- System tray icon + popup brightness panel.
+- Select detected monitor (`ddcutil detect --brief`).
+- Read current brightness (`getvcp 10`).
+- Adjust brightness with a slider (`setvcp 10`).
+- Keep the standalone CLI helper (`npm run linux:brightness`) for scripting.
+
+### Ubuntu setup
 
 ```bash
 sudo apt update
 sudo apt install ddcutil
+npm install
+npm start
+```
+
+### CLI helper examples
+
+```bash
 npm run linux:brightness -- --list
 npm run linux:brightness -- --display 1 --get
 npm run linux:brightness -- --display 1 --set 70
-```
-
-You can also change brightness relatively:
-
-```bash
 npm run linux:brightness -- --display 1 --offset -10
 ```
 
-This helper does not replace the full Twinkle Tray tray UI on Linux, but it gives Ubuntu users a supported path to control DDC/CI brightness from this repo.
+### Notes
+
+- You may need to add your user to the `i2c` group and re-login for monitor control.
+- Monitor OSD must have DDC/CI enabled.
+- This is a Linux-focused tray prototype and does not yet replicate every Windows-only Twinkle Tray feature.
 
 ## Special Thanks
 
