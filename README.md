@@ -160,8 +160,7 @@ npm run parcel-build
 npm run electron-build-linux
 ```
 
-This produces Linux artifacts (`AppImage` and `deb`) via Electron Builder.  
-Linux build command disables native module rebuild (`npmRebuild=false`, `nodeGypRebuild=false`) so Windows-specific native addons don't block packaging.
+This produces Linux artifacts (`AppImage` and `deb`) via Electron Builder.
 
 ### CLI helper examples
 
