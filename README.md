@@ -128,6 +128,27 @@ If you wish to run a development build of Twinkly Tray:
 
 *Note: Twinkle Tray must be built on Windows.*
 
+
+## Ubuntu 24.04 / Linux Notes (Community Helper)
+
+Twinkle Tray itself is still a Windows-focused app. This repository now includes a small Linux helper script for external monitor brightness via `ddcutil`:
+
+```bash
+sudo apt update
+sudo apt install ddcutil
+npm run linux:brightness -- --list
+npm run linux:brightness -- --display 1 --get
+npm run linux:brightness -- --display 1 --set 70
+```
+
+You can also change brightness relatively:
+
+```bash
+npm run linux:brightness -- --display 1 --offset -10
+```
+
+This helper does not replace the full Twinkle Tray tray UI on Linux, but it gives Ubuntu users a supported path to control DDC/CI brightness from this repo.
+
 ## Special Thanks
 
 Twinkle Tray was built using frameworks & libraries such as [Electron](https://electronjs.org/), [Node.js](https://nodejs.org/), [node-ddcci](https://github.com/hensm/node-ddcci), and [win32-displayconfig](<https://github.com/djsweet/win32-displayconfig>). Thanks to Weblate for allowing free use of their service, along with the many contributors to the localizations of Twinkle Tray. The app would not be nearly as popular without all of your help. And thank you for the many donations, small and large, over the years. 

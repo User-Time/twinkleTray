@@ -19,7 +19,8 @@
     "appx-arm64": "npm run parcel-build && electron-builder --arm64 -w appx -c.extraMetadata.name=twinkle-tray-appx -c.win.artifactName=\"${productName} v${version}-store-arm64.${ext}\"",
     "build": "npm ci & npm run parcel-build && npm run electron-build",
     "build-all": "npm run build && npm run appx && npm run appx-arm64",
-    "test-wmibridge": "node src/modules/wmi-bridge/example.js"
+    "test-wmibridge": "node src/modules/wmi-bridge/example.js",
+    "linux:brightness": "node src/linux-ddcutil.js"
   },
   "keywords": [
     "electron",
@@ -55,7 +56,9 @@
     "productName": "Twinkle Tray",
     "appId": "com.xanderfrangos.twinkle-tray",
     "compression": "normal",
-    "electronLanguages": ["en-US"],
+    "electronLanguages": [
+      "en-US"
+    ],
     "directories": {
       "buildResources": "resources"
     },
