@@ -128,6 +128,53 @@ If you wish to run a development build of Twinkly Tray:
 
 *Note: Twinkle Tray must be built on Windows.*
 
+
+## Ubuntu 24.04 / Linux Notes (Tray Prototype)
+
+Twinkle Tray's original codebase is Windows-first, but this repo now includes a Linux tray prototype that runs on Ubuntu 24.04 with `ddcutil`.
+
+### What works on Linux now
+
+- System tray icon + popup brightness panel.
+- Select detected monitor (`ddcutil detect --brief`).
+- Read current brightness (`getvcp 10`).
+- Adjust brightness with a slider (`setvcp 10`).
+- Keep the standalone CLI helper (`npm run linux:brightness`) for scripting.
+
+### Ubuntu setup
+
+```bash
+sudo apt update
+sudo apt install ddcutil
+npm install
+npm start
+```
+
+### Linux package build
+
+```bash
+npm install
+npm run parcel-build
+npm run electron-build-linux
+```
+
+This produces Linux artifacts (`AppImage` and `deb`) via Electron Builder.
+
+### CLI helper examples
+
+```bash
+npm run linux:brightness -- --list
+npm run linux:brightness -- --display 1 --get
+npm run linux:brightness -- --display 1 --set 70
+npm run linux:brightness -- --display 1 --offset -10
+```
+
+### Notes
+
+- You may need to add your user to the `i2c` group and re-login for monitor control.
+- Monitor OSD must have DDC/CI enabled.
+- This is a Linux-focused tray prototype and does not yet replicate every Windows-only Twinkle Tray feature.
+
 ## Special Thanks
 
 Twinkle Tray was built using frameworks & libraries such as [Electron](https://electronjs.org/), [Node.js](https://nodejs.org/), [node-ddcci](https://github.com/hensm/node-ddcci), and [win32-displayconfig](<https://github.com/djsweet/win32-displayconfig>). Thanks to Weblate for allowing free use of their service, along with the many contributors to the localizations of Twinkle Tray. The app would not be nearly as popular without all of your help. And thank you for the many donations, small and large, over the years. 
