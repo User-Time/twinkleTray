@@ -1,3 +1,6 @@
+if (process.platform === 'linux') {
+  require('./linux/electron-linux')
+} else {
 const { app } = require('electron')
 const fs = require('fs')
 
@@ -4996,3 +4999,5 @@ const pipe = {
 }
 
 pipe.start()
+
+}

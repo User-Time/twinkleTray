@@ -4,13 +4,14 @@
   "description": "Manage the brightness of monitors from your system tray",
   "main": "src/electron.js",
   "scripts": {
-    "start": "electron . --dev",
+    "start": "node src/scripts/start-electron.js --dev",
     "parcel": "node src/parcel.js --mode dev",
     "parcel-build": "node src/parcel.js --mode build",
     "clean": "npm ci",
-    "dev": "electron . --dev",
+    "dev": "node src/scripts/start-electron.js --dev",
     "electron-build": "electron-builder --x64",
-    "postinstall": "electron-builder install-app-deps",
+    "electron-build-linux": "electron-builder --x64 -l AppImage deb -c.npmRebuild=false -c.nodeGypRebuild=false",
+    "postinstall": "node src/scripts/postinstall.js",
     "appx": "npm run parcel-build && electron-builder --x64 -w appx -c.extraMetadata.name=twinkle-tray-appx -c.win.artifactName=\"${productName} v${version}-store.${ext}\"",
     "appx-unsigned": "npm run parcel-build && electron-builder --x64 -w appx -c.appx.publisher=\"CN=AppModelSamples, OID.2.25.311729368913984317654407730594956997722=1\" -c.extraMetadata.name=twinkle-tray-appx -c.win.artifactName=\"${productName} v${version}-unsigned.${ext}\"",
     "portable": "npm run parcel-build && electron-builder --x64 -w zip -c.extraMetadata.name=twinkle-tray-portable -c.win.artifactName=\"${productName} v${version}-portable.${ext}\" -c.win.compression=normal",
@@ -19,7 +20,8 @@
     "appx-arm64": "npm run parcel-build && electron-builder --arm64 -w appx -c.extraMetadata.name=twinkle-tray-appx -c.win.artifactName=\"${productName} v${version}-store-arm64.${ext}\"",
     "build": "npm ci & npm run parcel-build && npm run electron-build",
     "build-all": "npm run build && npm run appx && npm run appx-arm64",
-    "test-wmibridge": "node src/modules/wmi-bridge/example.js"
+    "test-wmibridge": "node src/modules/wmi-bridge/example.js",
+    "linux:brightness": "node src/linux-ddcutil.js"
   },
   "keywords": [
     "electron",
@@ -31,9 +33,6 @@
   "author": "Xander Frangos",
   "license": "MIT",
   "dependencies": {
-    "@hensm/ddcci": "file:src/modules/node-ddcci",
-    "@paymoapp/active-window": "file:src/modules/node-active-window",
-    "acrylic": "file:src/modules/acrylic",
     "color": "^4.2.3",
     "ga4-mp": "^1.0.3",
     "global-mouse-events": "^1.2.0",
@@ -41,21 +40,26 @@
     "stackblur-canvas": "^2.7.0",
     "studio-display-control": "^0.2.0",
     "suncalc": "^1.9.0",
+    "wmi-client": "^0.5.0"
+  },
+  "optionalDependencies": {
+    "@hensm/ddcci": "file:src/modules/node-ddcci",
+    "@paymoapp/active-window": "file:src/modules/node-active-window",
+    "acrylic": "file:src/modules/acrylic",
+    "native-reg": "^1.1.1",
     "tt-windows-utils": "file:src/modules/tt-windows-utils",
     "win32-displayconfig": "file:src/modules/win32-displayconfig",
     "windows-accent-colors": "^1.0.1",
     "windows-hdr": "file:src/modules/windows-hdr",
-    "wmi-bridge": "file:src/modules/wmi-bridge",
-    "wmi-client": "^0.5.0"
-  },
-  "optionalDependencies": {
-    "native-reg": "^1.1.1"
+    "wmi-bridge": "file:src/modules/wmi-bridge"
   },
   "build": {
     "productName": "Twinkle Tray",
     "appId": "com.xanderfrangos.twinkle-tray",
     "compression": "normal",
-    "electronLanguages": ["en-US"],
+    "electronLanguages": [
+      "en-US"
+    ],
     "directories": {
       "buildResources": "resources"
     },
@@ -153,6 +157,14 @@
       "artifactName": "${productName} v${version}.${ext}",
       "icon": "src/assets/logo.ico",
       "legalTrademarks": "Xander Frangos"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility",
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
     },
     "appx": {
       "publisherDisplayName": "Xander Frangos",
